@@ -1,0 +1,35 @@
+.form {
+    width: 100%;
+    max-width: 80rem;
+    margin: auto;
+    /* border: 1px solid #b3294e; */
+    padding: 2rem 3rem;
+    /* background-color: rgb(179, 200, 225); */
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.formLabel {
+    margin-bottom: 0.4rem;
+    color: dark;
+}
+
+.formField {
+    padding: 0.5rem;
+    border: 1px solid #b3294e;
+}
+
+.formSubmitBtn {
+    padding: 0.8rem 1rem;
+    min-width: 5rem;
+    background-color: #b3294e;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 0.5px;
+    margin: mx auto;
+}
