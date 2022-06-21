@@ -18,8 +18,6 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import withStyles from '@mui/styles/withStyles';
 import PlayCirlceOutlineIcon from "@mui/icons-material/PlayCircleOutline";
@@ -38,8 +36,8 @@ import theme from "../../../theme";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCustomerOrder } from "actions";
 import ButtonCircularProgress from "shared/components/ButtonCircularProgress";
-
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const styles = (theme) => ({
   tableWrapper: {
@@ -102,8 +100,7 @@ const rows = [
 const rowsPerPage = 10;
 
 function CustomDataTable(props) {
-  const { pushMessageToSnackbar, classes, targets, setTargets, title, emptyLineNotification, selectRow , selectRowCheckedIn, selectRowReceivedIn, customerOrder} = props;
-  
+  const { pushMessageToSnackbar, classes, targets, setTargets, title, emptyLineNotification } = props;
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState(null);
   const [page, setPage] = useState(0);
@@ -120,10 +117,10 @@ function CustomDataTable(props) {
 
   const [selectedExpectedVehicle, setSelectedExpectedVehicle] = useState(null);
   const [selectedCustomerOrder, setSelectedCustomerOrder] = useState({});
-  const customerOrderList = useSelector(state => state.customerOrder.customerOrderList);
 
   const dispatch = useDispatch();
   const state = useSelector(state => state);
+  console.log('state', state)
 
   const handleRequestSort = useCallback(
     (__, property) => {
@@ -187,31 +184,14 @@ function CustomDataTable(props) {
   }
   
   function FilterExpectedVehiclesToday() {
-    const customerOrdersExpectedToday = customerOrderList.filter((customerOrder) => {
+    const customerOrdersExpectedToday = targets.filter((customerOrder) => {
       return (customerOrder.Reception_Date === dateParser() && customerOrder.Checked_In === false);
     });
     return customerOrdersExpectedToday;
   }
 
   const ExpectedVehiclesToday = FilterExpectedVehiclesToday();
-  console.log('ExpectedVehiclesToday', ExpectedVehiclesToday);
-
-  function FilterVehiclesCheckedInToday() {
-    const customerOrdersExpectedToday = customerOrderList.filter((customerOrder) => {
-      return (customerOrder.Reception_Date === dateParser() && customerOrder.Checked_In === true && customerOrder.Received_In === false);
-    });
-    return customerOrdersExpectedToday;
-  }
-  const VehiclesCheckedInToday = FilterVehiclesCheckedInToday();
-
-  function FilterVehiclesReceivedToday() {
-    const customerOrdersExpectedToday = customerOrderList.filter((customerOrder) => {
-      return (customerOrder.Reception_Date === dateParser() && customerOrder.Checked_In === true && customerOrder.Received_In === true);
-    });
-    return customerOrdersExpectedToday;
-  }
-  const VehiclesReceivedInToday = FilterVehiclesReceivedToday();
-  console.log('VehiclesReceivedInToday', VehiclesReceivedInToday)
+  console.log('ExpectedVehiclesToday', ExpectedVehiclesToday)
 
   const checkIn = () => {
     setIsCheckInLoading(true);
@@ -281,12 +261,23 @@ function CustomDataTable(props) {
     [pushMessageToSnackbar, targets, setTargets]
   );
 
-  // const selectRow = selectedCustomerOrder => {
-  //   console.log('row:>', selectedCustomerOrder);
-  //   setSelectedCustomerOrder(selectedCustomerOrder);
-  //   console.log('selectedCustomerOrder', selectedCustomerOrder);
-  //   setIsExpectedVehicleDialogOpen(true);
-  // };
+  const selectRow = selectedCustomerOrder => {
+    console.log('row:>', selectedCustomerOrder);
+    setSelectedCustomerOrder(selectedCustomerOrder);
+    console.log('selectedCustomerOrder', selectedCustomerOrder);
+    // setIsExpectedVehicleDialogOpen(true);
+
+  };
+
+  const history = useHistory();
+
+
+  const handleSelectCustomerOrder = (selectedCustomerOrder) => {
+    setSelectedCustomerOrder(selectedCustomerOrder);
+    console.log('selectedCustomerOrder', selectedCustomerOrder);
+    history.push(`invoice/${selectedCustomerOrder.No}`);
+    // return <Redirect to={`customer-order/${selectedCustomerOrder.No}`} />
+  };
 
   const handleExpectedVehicleDialog = (event, selectedExpectedVehicle) => {
     console.log('selectedExpectedVehicle:>', selectedExpectedVehicle);
@@ -294,52 +285,13 @@ function CustomDataTable(props) {
     setIsExpectedVehicleDialogOpen(true);
   };
 
-  const itemHeight = 216;
-  const options = ["Checked-In Vehicles", "Received Vehicles"];
-  const [anchorEl, setAnchorEl] = useState(null);
-const [selectedOption, setSelectedOption] = useState("Checked-In Vehicles");
-
-const handleClick = useCallback(
-  (event) => {
-    console.log('event', event.currentTarget);
-    
-    setAnchorEl(event.currentTarget);
-  },
-  [setAnchorEl]
-);
-
-const handleClose = useCallback(() => {
-  setAnchorEl(null);
-}, [setAnchorEl]);
-
-let data = [];
-
-const selectOption = useCallback(
-  (selectedOption) => {
-      console.log('selectedOption', selectedOption)
-    setSelectedOption(selectedOption);
-    if (selectedOption === "Checked-In Vehicles") {
-        setTargets(VehiclesCheckedInToday)
-    }
-    if (selectedOption === "Received Vehicles") {
-        setTargets(VehiclesReceivedInToday)
-    }
-    handleClose();
-  },
-  [setSelectedOption, handleClose]
-);
-
-    const isOpen = Boolean(anchorEl);
-
-    console.log('data', data)
-
   return (
     <React.Fragment>
       {/* <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>{ title }</Typography>
       </AccordionSummary> */}
       {/* ******* */}
-      {/* <Dialog
+      <Dialog
         open={isExpectedVehicleDialogOpen}
         onClose={() => setIsExpectedVehicleDialogOpen(false)}
         aria-labelledby="responsive-dialog-title"
@@ -459,7 +411,7 @@ const selectOption = useCallback(
               Check In {isCheckInLoading && <ButtonCircularProgress />}
             </Button>
       </DialogActions>
-      </Dialog> */}
+      </Dialog>
       {/* ****** */}
       <ConfirmationDialog
         open={isDeleteTargetDialogOpen}
@@ -482,85 +434,34 @@ const selectOption = useCallback(
         title="Expected Vehicle"
       /> */}
       <Card>
-        <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" px={2} py={2} sx={{ backgroundColor: "#fff" }}>
-            <Typography
-                variant="h5"
-                className={classes.brandText}
-                display="inline"
-                color="primary"
-            >
-                { selectedOption }
-            </Typography>
-            <div>
-            <IconButton
-              aria-label="More"
-              aria-owns={isOpen ? "long-menu" : undefined}
-              aria-haspopup="true"
-              onClick={handleClick}
-              size="large">
-              <MoreVertIcon color="red" />
-            </IconButton>
-            <Menu
-              id="long-menu"
-              anchorEl={anchorEl}
-              open={isOpen}
-              onClose={handleClose}
-              PaperProps={{
-                style: {
-                  maxHeight: itemHeight,
-                  width: 200,
-                },
-              }}
-              disableScrollLock
-            >
-              {options.map((option) => (
-                <MenuItem
-                  key={option}
-                  selected={option === selectedOption}
-                  onClick={() => {
-                    selectOption(option);
-                  }}
-                  name={option}
-                >
-                  {option}
-                </MenuItem>
-              ))}
-            </Menu>
-          </div>
-        </Box>
-      </Card>
-      <Divider />
-      <Box width="100%" sx={{ backgroundColor: "#fff" }}>
-      {/* <Typography
-        variant="h4"
+      <Box width="100%" px={2} py={2} sx={{ backgroundColor: "#fff" }}>
+      <Typography
+        variant="h5"
         className={classes.brandText}
         display="inline"
         color="primary"
-        px={2}
-        my={5}
       >
-        Expected Vehicles
-      </Typography> */}
-
+        { title }
+      </Typography>
+      </Box>
+      </Card>
+      <Divider />
+      <Box width="100%" sx={{ backgroundColor: "#fff" }}>
         <div className={classes.tableWrapper}>
-        {
-        
-          VehiclesCheckedInToday.length > 0 && selectedOption === "Checked-In Vehicles" ? (
+          {targets.length > 0 ? (
             <Table aria-labelledby="tableTitle">
               <EnhancedTableHead
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
-                rowCount={VehiclesCheckedInToday.length}
+                rowCount={targets.length}
                 rows={rows}
               />
               <TableBody>
-                {stableSort(VehiclesCheckedInToday, getSorting(order, orderBy))
+                {stableSort(targets, getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((selectedCustomerOrder, index) => (
-                    <TableRow hover tabIndex={-1} key={index} onClick={() => {
-                      selectRowCheckedIn(selectedCustomerOrder);
-                      }}>
+                    <TableRow hover tabIndex={-1} key={index} onClick={() => handleSelectCustomerOrder(selectedCustomerOrder)}>
                       <TableCell component="th" scope="row">
                         {selectedCustomerOrder.Vehicle_Registration_No}
                       </TableCell>
@@ -629,91 +530,6 @@ const selectOption = useCallback(
                     </TableRow>
                   ))}
               </TableBody>
-            </Table>
-          ) : VehiclesReceivedInToday.length > 0 && selectedOption === "Received Vehicles" ? (
-            <Table aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={VehiclesReceivedInToday.length}
-              rows={rows}
-            />
-            <TableBody>
-              {stableSort(VehiclesReceivedInToday, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((selectedCustomerOrder, index) => (
-                  <TableRow hover tabIndex={-1} key={index} onClick={() => {
-                    selectRowReceivedIn(selectedCustomerOrder);
-                    }}>
-                    <TableCell component="th" scope="row">
-                      {selectedCustomerOrder.Vehicle_Registration_No}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {selectedCustomerOrder.Model_Name}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {selectedCustomerOrder.Customer_Name}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {selectedCustomerOrder.Reception_Time}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                    {selectedCustomerOrder.Stage === "Pending" ? (
-                    <ColorfulChip
-                      label={`${
-                        selectedCustomerOrder.Stage
-                      }`}
-                      color={theme.palette.secondary.main}
-                    />
-                  ) : (
-                    <ColorfulChip
-                      label={selectedCustomerOrder.Stage}
-                      color={theme.palette.error.dark}
-                    />
-                  )}
-                      {/* {row.Stage} */}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      <Box display="flex" justifycontent="flex-end">
-                        {selectedCustomerOrder.isActivated ? (
-                          <IconButton
-                            className={classes.iconButton}
-                            onClick={() => {
-                              toggleTarget(selectedCustomerOrder);
-                            }}
-                            aria-label="Pause"
-                            size="large">
-                            <PauseCircleOutlineIcon
-                              className={classes.blackIcon}
-                            />
-                          </IconButton>
-                        ) : (
-                          <IconButton
-                            className={classes.iconButton}
-                            color="primary"
-                            onClick={() => {
-                              toggleTarget(selectedCustomerOrder);
-                            }}
-                            aria-label="Resume"
-                            size="large">
-                            <PlayCirlceOutlineIcon />
-                          </IconButton>
-                        )}
-                        <IconButton
-                          className={classes.iconButton}
-                          onClick={() => {
-                            handleDeleteTargetDialogOpen(selectedCustomerOrder);
-                          }}
-                          aria-label="Delete"
-                          size="large">
-                          <DeleteIcon className={classes.blackIcon} />
-                        </IconButton>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
             </Table>
           ) : (
             <Box m={2}>

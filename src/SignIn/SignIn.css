@@ -12,10 +12,20 @@
     flex-direction: column;
     margin-bottom: 1rem;
 }
+.formGroupCheckbox {
+    display: flex;
+    margin-bottom: 1rem;
+}
 
 .formLabel {
     margin-bottom: 0.4rem;
     color: dark;
+    margin-right: 3rem !important;
+}
+.formLabelCheckbox {
+    margin-bottom: 0.4rem;
+    color: dark;
+    padding-right: 3rem;
 }
 
 .formField {

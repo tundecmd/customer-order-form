@@ -14,6 +14,15 @@ import ReceivedVehicles from "./ReceivedVehicles/ReceivedVehicles";
 import CustomerOrderForm from "./CustomerOrderForm/CustomerOrderForm";
 import CustomerOrders from "./CustomerOrderForm/CustomerOrders";
 import { Route } from "react-router-dom";
+import CustomerOrdersInvoice from "./Invoice/CustomersOrdersInvoice";
+import CustomerOrdersJobInstruction from "./JobInstruction/CustomerOrdersJobInstruction";
+import Invoice from "./Invoice/Invoice";
+import JobInstruction from "./JobInstruction/JobInstruction";
+// import CustomerOrdersEstimation from "./Estimation/CustomerOrdersEstimation";
+import Estimation from "./Estimation/Estimation";
+import CustomerOrdersEstimation from "./Estimation/CustomerOrdersEstimation";
+import CustomerOrdersQuestionnaire from "./Questionnaire/CustomerOrdersQuestionnaire";
+import Questionnaire from "./Questionnaire/Questionnaire";
 
 const styles = (theme) => ({
   wrapper: {
@@ -111,6 +120,102 @@ function Routing(props) {
         <PropsRoute
           path="/received-vehicles"
           component={ReceivedVehicles}
+          toggleAccountActivation={toggleAccountActivation}
+          pushMessageToSnackbar={pushMessageToSnackbar}
+          CardChart={CardChart}
+          statistics={statistics}
+          targets={targets}
+          setTargets={setTargets}
+          isAccountActivated={isAccountActivated}
+          selectDashboard={selectDashboard}
+        />
+        <PropsRoute
+          path="/estimations"
+          component={CustomerOrdersEstimation}
+          toggleAccountActivation={toggleAccountActivation}
+          pushMessageToSnackbar={pushMessageToSnackbar}
+          CardChart={CardChart}
+          statistics={statistics}
+          targets={targets}
+          setTargets={setTargets}
+          isAccountActivated={isAccountActivated}
+          selectDashboard={selectDashboard}
+        />
+        <PropsRoute
+          path="/estimation/:formId"
+          component={Estimation}
+          toggleAccountActivation={toggleAccountActivation}
+          pushMessageToSnackbar={pushMessageToSnackbar}
+          CardChart={CardChart}
+          statistics={statistics}
+          targets={targets}
+          setTargets={setTargets}
+          isAccountActivated={isAccountActivated}
+          selectDashboard={selectDashboard}
+        />
+        <PropsRoute
+          path="/invoices"
+          component={CustomerOrdersInvoice}
+          toggleAccountActivation={toggleAccountActivation}
+          pushMessageToSnackbar={pushMessageToSnackbar}
+          CardChart={CardChart}
+          statistics={statistics}
+          targets={targets}
+          setTargets={setTargets}
+          isAccountActivated={isAccountActivated}
+          selectDashboard={selectDashboard}
+        />
+         <PropsRoute
+          path="/invoice/:formId"
+          component={Invoice}
+          toggleAccountActivation={toggleAccountActivation}
+          pushMessageToSnackbar={pushMessageToSnackbar}
+          CardChart={CardChart}
+          statistics={statistics}
+          targets={targets}
+          setTargets={setTargets}
+          isAccountActivated={isAccountActivated}
+          selectDashboard={selectDashboard}
+        />
+        <PropsRoute
+          path="/job-instructions"
+          component={CustomerOrdersJobInstruction}
+          toggleAccountActivation={toggleAccountActivation}
+          pushMessageToSnackbar={pushMessageToSnackbar}
+          CardChart={CardChart}
+          statistics={statistics}
+          targets={targets}
+          setTargets={setTargets}
+          isAccountActivated={isAccountActivated}
+          selectDashboard={selectDashboard}
+        />
+         <PropsRoute
+          path="/job-instruction/:formId"
+          component={JobInstruction}
+          toggleAccountActivation={toggleAccountActivation}
+          pushMessageToSnackbar={pushMessageToSnackbar}
+          CardChart={CardChart}
+          statistics={statistics}
+          targets={targets}
+          setTargets={setTargets}
+          isAccountActivated={isAccountActivated}
+          selectDashboard={selectDashboard}
+        />
+        <PropsRoute
+          path="/questionnaires"
+          component={CustomerOrdersQuestionnaire}
+          toggleAccountActivation={toggleAccountActivation}
+          pushMessageToSnackbar={pushMessageToSnackbar}
+          CardChart={CardChart}
+          statistics={statistics}
+          targets={targets}
+          setTargets={setTargets}
+          isAccountActivated={isAccountActivated}
+          selectDashboard={selectDashboard}
+        />
+        <PropsRoute
+          path="/questionnaire/:formId"
+          component={Questionnaire}
           toggleAccountActivation={toggleAccountActivation}
           pushMessageToSnackbar={pushMessageToSnackbar}
           CardChart={CardChart}

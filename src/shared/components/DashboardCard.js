@@ -12,6 +12,7 @@ import format from "date-fns/format";
 import { Card, CardContent, Typography, IconButton, Menu, MenuItem, Box, Button } from "@mui/material";
 import withStyles from '@mui/styles/withStyles';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Link } from "react-router-dom";
 
 const styles = (theme) => ({
   cardContentInner: {
@@ -37,7 +38,7 @@ const itemHeight = 216;
 const options = ["1 Week", "1 Month", "6 Months"];
 
 function DashboardCard(props) {
-  const { color, data, title, classes, theme, height, numberOfVehicles } = props;
+  const { color, data, title, classes, theme, height, numberOfVehicles, url } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedOption, setSelectedOption] = useState("1 Month");
 
@@ -122,10 +123,15 @@ function DashboardCard(props) {
             <Typography pb={2} pt={2} variant="h1" align="center">
                 { numberOfVehicles }
             </Typography>
+            <Box sx={{ textDecoration: "none !important" }}>
+            <Link to={`/${url}`} className="dashboard-link">
             <Button mx={2}
+            sx={{ textDecoration: "none !important" }}
             >
               View Details
             </Button>
+            </Link>
+            </Box>
         </Box>
       </CardContent>
     </Card>

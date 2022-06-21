@@ -2,3 +2,31 @@
     border-radius: 0px !important;
     border-color: #b3294e !important;
 }
+
+.css-1snpze1-MuiPaper-root-MuiDialog-paper {
+    max-width: 75%;
+    max-height: 75%;
+    margin-left: 70px;
+}
+
+/* img {
+  width: 100px !important;
+  height: 100px !important;
+} */
+.img-lg img {
+  width: 100% !important;
+  height: 100% !important;
+}
+.css-g0hbx0-MuiPaper-root-MuiDialog-paper {
+    margin-left: 70px !important;
+}
+.css-ypiqx9-MuiDialogContent-root {
+    padding: 5px;
+}
+
+.rc-checkbox {
+  margin: 15px !important;
+}
+.dashboard-link {
+  text-decoration: none
+}

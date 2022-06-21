@@ -3,6 +3,7 @@
 
 import { authReducer } from "./auth.reducers";
 import { customerOrderReducer } from "./customerOrder.reducer";
+import { partsStockReducer } from "./partsStockConfirmation.reducers";
 
 const { combineReducers } = require("redux");
 // const { authReducer } = require("./auth.reducer");
@@ -10,7 +11,7 @@ const { combineReducers } = require("redux");
 const rootReducer = combineReducers({
   auth: authReducer,
   customerOrder: customerOrderReducer,
-  // partsStock: partsStockReducer
+  partsStock: partsStockReducer
 });
 
 export default rootReducer;

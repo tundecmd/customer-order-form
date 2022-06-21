@@ -47,22 +47,25 @@ function Dashboard(props) {
         auth.authenticate === true ? 
 
         <Grid container spacing={1}> 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <DashboardCard
             title="Expected Vehicles"
             numberOfVehicles={2}
+            url="expected-vehicles"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <DashboardCard 
             title="Checked-In Vehicles"
             numberOfVehicles={2}
+            url="received-vehicles"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <DashboardCard 
             title="Received Vehicles"
             numberOfVehicles={2}
+            url="received-vehicles"
           />
         </Grid>
       </Grid>

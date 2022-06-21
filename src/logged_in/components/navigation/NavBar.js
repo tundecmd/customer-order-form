@@ -24,6 +24,15 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import MenuIcon from "@mui/icons-material/Menu";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import FunctionsIcon from '@mui/icons-material/Functions';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import DynamicFormIcon from '@mui/icons-material/DynamicForm';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+import ElectricCarIcon from '@mui/icons-material/ElectricCar';
+
 import MessagePopperButton from "./MessagePopperButton";
 import SideDrawer from "./SideDrawer";
 import Balance from "./Balance";
@@ -184,14 +193,14 @@ function NavBar(props) {
       onClick: closeMobileDrawer,
       icon: {
         desktop: (
-          <ImageIcon
+          <ElectricCarIcon
             className={
               selectedTab === "Posts" ? classes.textPrimary : "text-white"
             }
             fontSize="small"
           />
         ),
-        mobile: <ImageIcon className="text-white" />,
+        mobile: <ElectricCarIcon className="text-white" />,
       },
     },
     {
@@ -200,14 +209,14 @@ function NavBar(props) {
       onClick: closeMobileDrawer,
       icon: {
         desktop: (
-          <ImageIcon
+          <DirectionsCarFilledIcon
             className={
               selectedTab === "Posts" ? classes.textPrimary : "text-white"
             }
             fontSize="small"
           />
         ),
-        mobile: <ImageIcon className="text-white" />,
+        mobile: <DirectionsCarFilledIcon className="text-white" />,
       },
     },
     {
@@ -216,32 +225,78 @@ function NavBar(props) {
       onClick: closeMobileDrawer,
       icon: {
         desktop: (
-          <ImageIcon
+          <DynamicFormIcon
             className={
               selectedTab === "Posts" ? classes.textPrimary : "text-white"
             }
             fontSize="small"
           />
         ),
-        mobile: <ImageIcon className="text-white" />,
+        mobile: <DynamicFormIcon className="text-white" />,
       },
     },
     {
-      link: "/c/subscription",
-      name: "Subscription",
+      link: "/invoices",
+      name: "Invoices",
       onClick: closeMobileDrawer,
       icon: {
         desktop: (
-          <AccountBalanceIcon
+          <ReceiptIcon
             className={
-              selectedTab === "Subscription"
-                ? classes.textPrimary
-                : "text-white"
+              selectedTab === "Posts" ? classes.textPrimary : "text-white"
             }
             fontSize="small"
           />
         ),
-        mobile: <AccountBalanceIcon className="text-white" />,
+        mobile: <ReceiptIcon className="text-white" />,
+      },
+    },
+    {
+      link: "/estimations",
+      name: "Estimation",
+      onClick: closeMobileDrawer,
+      icon: {
+        desktop: (
+          <FunctionsIcon
+            className={
+              selectedTab === "Posts" ? classes.textPrimary : "text-white"
+            }
+            fontSize="small"
+          />
+        ),
+        mobile: <FunctionsIcon className="text-white" />,
+      },
+    },
+    {
+      link: "/job-instructions",
+      name: "Job Instruction",
+      onClick: closeMobileDrawer,
+      icon: {
+        desktop: (
+          <IntegrationInstructionsIcon
+            className={
+              selectedTab === "Posts" ? classes.textPrimary : "text-white"
+            }
+            fontSize="small"
+          />
+        ),
+        mobile: <IntegrationInstructionsIcon className="text-white" />,
+      },
+    },
+    {
+      link: "/questionnaires",
+      name: "Questionnaire",
+      onClick: closeMobileDrawer,
+      icon: {
+        desktop: (
+          <QuestionAnswerIcon
+            className={
+              selectedTab === "Posts" ? classes.textPrimary : "text-white"
+            }
+            fontSize="small"
+          />
+        ),
+        mobile: <QuestionAnswerIcon className="text-white" />,
       },
     },
     {
@@ -326,7 +381,7 @@ function NavBar(props) {
                   !isWidthUpMd && (
                     <Avatar
                       alt="profile picture"
-                      src={`${process.env.PUBLIC_URL}/images/logged_in/profilePicture.jpg`}
+                      src={`${process.env.PUBLIC_URL}/images/logged_in/image2.jpg`}
                       className={classNames(classes.accountAvatar)}
                     />
                   )
@@ -351,7 +406,7 @@ function NavBar(props) {
                 !isWidthUpMd && (
                   <Avatar
                     alt="profile picture"
-                    src={`${process.env.PUBLIC_URL}/images/logged_in/profilePicture.jpg`}
+                    src={`${process.env.PUBLIC_URL}/images/logged_in/image7.jpg`}
                     className={classNames(classes.accountAvatar)}
                   />
                 ) 
@@ -376,7 +431,7 @@ function NavBar(props) {
                 !isWidthUpMd && (
                   <Avatar
                     alt="profile picture"
-                    src={`${process.env.PUBLIC_URL}/images/logged_in/profilePicture.jpg`}
+                    src={`${process.env.PUBLIC_URL}/images/logged_in/image9.jpg`}
                     className={classNames(classes.accountAvatar)}
                   />
                 )

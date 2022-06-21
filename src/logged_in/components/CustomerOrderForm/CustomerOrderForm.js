@@ -1,16 +1,19 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Typography, Box, Card, Grid, Accordion, AccordionSummary, Divider } from "@mui/material";
+import { Typography, Box, Card, Grid, Accordion, AccordionSummary, Divider, FormControlLabel } from "@mui/material";
 // import DashboardCard from "shared/components/DashboardCard";
 // import StatisticsArea from "./StatisticsArea";
 // import UserDataArea from "../dashboard/UserDataArea";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch, useSelector } from "react-redux";
+
+import Checkbox from 'rc-checkbox';
 import { getCustomerOrder } from "actions";
 import { getCustomerOrderById } from "actions";
 import Select from 'react-select';
 import { updateCustomerOrder } from "actions";
 import { customerOrderReducer } from "reducers/customerOrder.reducer";
+import "../../../SignIn/SignIn.css";
 // import SettingsArea from "./SettingsArea";
 // import UserDataArea from "./UserDataArea";
 // import AccountInformationArea from "./AccountInformationArea";
@@ -42,6 +45,7 @@ const vehicleDrivenByOptions = [
 function Dashboard(props) {
   const {
     selectDashboard,
+    classes,
     CardChart,
     statistics,
     pushMessageToSnackbar,
@@ -115,7 +119,7 @@ function Dashboard(props) {
 
   const ReceptionTypeFetched = receptionTypeOptions.filter((receptionType) => {
     return customerOrder && (receptionType.label === customerOrder.Reception_Type)
-});
+  });
 const CourtesyVehicleFetched = courtesyVehicleOptions.filter((CourtesyVehicle) => {
     return customerOrder && (CourtesyVehicle.label === customerOrder.Courtesy_Vehicle)
 });
@@ -133,6 +137,7 @@ const [selectedReceptionType, setSelectedReceptionType] = useState(customerOrder
 const [selectedCourtesyVehicle, setSelectedCourtesyVehicle] = useState(customerOrder && CourtesyVehicleFetched);
 const [selectedDeliveryType, setSelectedDeliveryType] = useState(customerOrder && DeliveryTypeFetched);
 const [selectedVehicle_Driven_By, setSelectedVehicle_Driven_By] = useState(customerOrder && Vehicle_Driven_By_Fetched);
+const [Service_History, setService_History] = useState(customerOrder && customerOrder.Service_History);
 
 console.log('customerOrder', customerOrder)
   const [form, setForm] = useState({
@@ -142,9 +147,9 @@ console.log('customerOrder', customerOrder)
     Customer_Name: customerOrder ? customerOrder.Customer_Name : "",
     Telephone_No: customerOrder ? customerOrder.Telephone_No : "",
     Address: customerOrder ? customerOrder.Address : "",
-    Reception_Type: customerOrder ? selectedReceptionType[0].value : null,
-    Courtesy_Vehicle: customerOrder ? selectedCourtesyVehicle[0].value : null,
-    Delivery_Type: customerOrder ? selectedDeliveryType[0].value : null,
+    Reception_Type: selectedReceptionType ? selectedReceptionType[0].value : null,
+    Courtesy_Vehicle: selectedCourtesyVehicle ? selectedCourtesyVehicle[0].value : null,
+    Delivery_Type: selectedDeliveryType ? selectedDeliveryType[0].value : null,
     Vehicle_Registration_No: customerOrder ? customerOrder.Vehicle_Registration_No : "",
     Vehicle_Registered_Date: customerOrder ? customerOrder.Vehicle_Registration_Date : "",
     Model_Year: customerOrder ? customerOrder.Model_Year : "",
@@ -154,7 +159,9 @@ console.log('customerOrder', customerOrder)
     Available_Time_From: customerOrder ? customerOrder.Available_Time_From : "",
     Available_Time_To: customerOrder ? customerOrder.Available_Time_To : "",
     Engine_No: customerOrder ? customerOrder.Engine_No : "",
-    Vehicle_Driven_By: customerOrder ? customerOrder.Vehicle_Driven_By : ""
+    Vehicle_Driven_By: customerOrder ? customerOrder.Vehicle_Driven_By : "",
+    Service_History: customerOrder ? customerOrder.Service_History : false,
+    Job_Type2: customerOrder ? customerOrder.Job_Type2 : ""
   });
 
   const onUpdateField = e => {
@@ -181,20 +188,20 @@ console.log('customerOrder', customerOrder)
         <Grid container spacing={2}>
             <Grid item xs={12} md={12}>
             <Card>
-      <Box width="100%" px={2} py={2} sx={{ backgroundColor: "#fff" }}>
-      <Typography
-        variant="h5"
-        // className={classes.brandText}
-        display="inline"
-        color="primary"
-      >
-        Customer Order Form
-      </Typography>
-      </Box>
-      </Card>
+                <Box width="100%" px={2} py={2} sx={{ backgroundColor: "#fff" }}>
+                <Typography
+                    variant="h5"
+                    // className={classes.brandText}
+                    display="inline"
+                    color="primary"
+                >
+                    Customer Order Form
+                </Typography>
+                </Box>
+            </Card>
       <Divider />
             </Grid>
-            <Grid item xs={12} md={12}>
+            <Grid item xs={12} md={6}>
                 <Box>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -258,7 +265,7 @@ console.log('customerOrder', customerOrder)
                     </Accordion>
                 </Box>
             </Grid>
-            <Grid item xs={12} md={12}>
+            <Grid item xs={12} md={6}>
                 <Box>
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -334,6 +341,116 @@ console.log('customerOrder', customerOrder)
                     </Accordion>
                 </Box>
             </Grid>
+            <Grid item xs={12} md={12}>
+                <Box>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography>Service History</Typography>
+                        </AccordionSummary>
+                        <form className='form' onSubmit={onSubmitForm}>
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">Previous Service History</label>
+                                <input type="date" name="Previous_Service_History" value={form.Previous_Service_History} onChange={onUpdateField} className='formField' />
+                            </div>
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">Customer Order Form No</label>
+                                <input type="text" name="No" value={form.No} onChange={onUpdateField} className='formField' />
+                            </div>
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">Job Type</label>
+                                <input type="text" name="Job_Type2" value={form.Job_Type2} onChange={onUpdateField} className='formField' />
+                            </div>
+                            {/* <div className="form-group row">
+                                <label className="col-sm-3 ml-3 col-form-label text-danger">Service History</label>
+                                <div className="col-sm-6">
+                                    <Checkbox
+                                        checked={Service_History}
+                                        onChange={(e) => setService_History(e.target.checked)}
+                                        name="isServiceHistory"
+                                        label="ServiceHistory"
+                                    />
+                                </div> 
+                                <div className="col-md-2">
+                                </div>
+                            </div> */}
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">Odometer_At_Appointment</label>
+                                <input type="text" name="Service_History" value={form.Odometer_At_Appointment} onChange={onUpdateField} className='formField' />
+                            </div>
+                            <FormControlLabel
+                              control={<Checkbox color="primary" />}
+                              label={<Typography variant="body1">Service History</Typography>}
+                            />
+                            {/* <div className="formGroupCheckbox">
+                                <label htmlFor="label" className="formLabel">Service History</label>
+                                <Checkbox
+                                    checked={Service_History}
+                                    onChange={(e) => setService_History(e.target.checked)}
+                                    name="isServiceHistory"
+                                    label="ServiceHistory"
+                                />
+                            </div> */}
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">SSC/Information</label>
+                                <input type="text" name="SSC_SC_Information" value={form.SSC_SC_Information} onChange={onUpdateField} className='formField' />
+                            </div>
+                            <button type='submit' className='formSubmitBtn'>
+                                Submit
+                            </button>
+                        </form>
+                    </Accordion>
+                </Box>
+            </Grid>
+            {/* <Grid item xs={12} md={6}>
+                <Box>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography>Walk Around Confirmation</Typography>
+                        </AccordionSummary>
+                        <form className='form' onSubmit={onSubmitForm}>
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">Previous Service History</label>
+                                <input type="date" name="Previous_Service_History" value={form.Previous_Service_History} onChange={onUpdateField} className='formField' />
+                            </div>
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">Customer Order Form No</label>
+                                <input type="text" name="No" value={form.No} onChange={onUpdateField} className='formField' />
+                            </div>
+                            <FormControlLabel
+                                //   className={classes.formControlLabel}
+                                control={<Checkbox color="primary" />}
+                                label={<Typography variant="body1">Remember me</Typography>}
+                            />
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">Job Type</label>
+                                <input type="text" name="Job_Type2" value={form.Job_Type2} onChange={onUpdateField} className='formField' />
+                            </div>
+                            
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">Odometer_At_Appointment</label>
+                                <input type="text" name="Odometer_At_Appointment" value={form.Odometer_At_Appointment} onChange={onUpdateField} className='formField' />
+                            </div>
+                            
+                            <div className="formGroup d-flex">
+                                <label htmlFor="label" className="formLabelCheckbox">Odometer_At_Appointment</label>
+                                <Checkbox
+                                    checked={Service_History}
+                                    onChange={(e) => setService_History(e.target.checked)}
+                                    name="isServiceHistory"
+                                    label="ServiceHistory"
+                                />
+                            </div>
+                            <div className="formGroup">
+                                <label htmlFor="label" className="formLabel">SSC/Information</label>
+                                <input type="text" name="SSC_SC_Information" value={form.SSC_SC_Information} onChange={onUpdateField} className='formField' />
+                            </div>
+                            <button type='submit' className='formSubmitBtn'>
+                                Submit
+                            </button>
+                        </form>
+                    </Accordion>
+                </Box>
+            </Grid> */}
         </Grid>
     </Fragment>
   );
