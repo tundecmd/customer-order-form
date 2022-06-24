@@ -76,11 +76,11 @@ const rows = [
 //     numeric: true,
 //     label: "",
 //   },
-  {
-    id: "Vehicle_Registration_No",
-    numeric: false,
-    label: "Reg No",
-  },
+  // {
+  //   id: "Vehicle_Registration_No",
+  //   numeric: false,
+  //   label: "Reg No",
+  // },
   { id: "Model_Name", numeric: false, label: "Model Name" },
   { id: "Customer_Name", numeric: false, label: "Customer Name" },
   { id: "Time_Received", numeric: false, label: "Time Received" },
@@ -115,9 +115,11 @@ function CustomDataTable(props) {
   const [isCheckInVehicleLoading, setIsCheckInVehicleLoading] = useState(false);
 
   const [selectedExpectedVehicle, setSelectedExpectedVehicle] = useState(null);
-  const [selectedCustomerOrder, setSelectedCustomerOrder] = useState({});
+  
 
   const [partsStockConfirmations, setPartsStockConfirmations] = useState([]);
+  console.log('partsStockConfirmations', partsStockConfirmations)
+  const [selectedCustomerOrder, setSelectedCustomerOrder] = useState({});
 
   const dispatch = useDispatch();
   const state = useSelector(state => state);
@@ -463,74 +465,37 @@ function CustomDataTable(props) {
               <TableBody>
                 {stableSort(targets, getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((selectedCustomerOrder, index) => (
+                  .map((selectedPartsStock, index) => (
                     <TableRow hover tabIndex={-1} key={index} onClick={() => {
                       selectRow(selectedCustomerOrder);
                       }}>
+                      {/* <TableCell component="th" scope="row">
+                        {selectedPartsStock.Vehicle_Registration_No}
+                      </TableCell> */}
                       <TableCell component="th" scope="row">
-                        {selectedCustomerOrder.Vehicle_Registration_No}
+                        {selectedPartsStock.Model_Name}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {selectedCustomerOrder.Model_Name}
+                        {selectedPartsStock.Customer_Name}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {selectedCustomerOrder.Customer_Name}
+                        {selectedPartsStock.Reception_Time}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {selectedCustomerOrder.Reception_Time}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                      {selectedCustomerOrder.Stage === "Pending" ? (
+                      {selectedPartsStock.Stage === "Pending" ? (
                       <ColorfulChip
                         label={`${
-                          selectedCustomerOrder.Stage
+                          selectedPartsStock.Stage
                         }`}
                         color={theme.palette.secondary.main}
                       />
                     ) : (
                       <ColorfulChip
-                        label={selectedCustomerOrder.Stage}
+                        label={selectedPartsStock.Stage}
                         color={theme.palette.error.dark}
                       />
                     )}
                         {/* {row.Stage} */}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        <Box display="flex" justifycontent="flex-end">
-                          {selectedCustomerOrder.isActivated ? (
-                            <IconButton
-                              className={classes.iconButton}
-                              onClick={() => {
-                                toggleTarget(selectedCustomerOrder);
-                              }}
-                              aria-label="Pause"
-                              size="large">
-                              <PauseCircleOutlineIcon
-                                className={classes.blackIcon}
-                              />
-                            </IconButton>
-                          ) : (
-                            <IconButton
-                              className={classes.iconButton}
-                              color="primary"
-                              onClick={() => {
-                                toggleTarget(selectedCustomerOrder);
-                              }}
-                              aria-label="Resume"
-                              size="large">
-                              <PlayCirlceOutlineIcon />
-                            </IconButton>
-                          )}
-                          <IconButton
-                            className={classes.iconButton}
-                            onClick={() => {
-                              handleDeleteTargetDialogOpen(selectedCustomerOrder);
-                            }}
-                            aria-label="Delete"
-                            size="large">
-                            <DeleteIcon className={classes.blackIcon} />
-                          </IconButton>
-                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}

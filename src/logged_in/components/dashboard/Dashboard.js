@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { Typography, Box, Card, Grid } from "@mui/material";
 import DashboardCard from "shared/components/DashboardCard";
 import StatisticsArea from "./StatisticsArea";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import SignIn from "SignIn/SignIn";
+import {getCustomerOrder} from "../../../actions";
 // import SettingsArea from "./SettingsArea";
 // import UserDataArea from "./UserDataArea";
 // import AccountInformationArea from "./AccountInformationArea";
@@ -22,6 +23,71 @@ function Dashboard(props) {
   const auth = useSelector(state => state.auth);
 
   console.log('targets::>')
+
+  const customerOrderList = useSelector(state => state.customerOrder.customerOrderList);
+  const state = useSelector(state => state);
+
+  const dispatch = useDispatch();
+
+  function dateParserwithArgument (date) {
+    let today = new Date(date);
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+  
+    today = yyyy + '-' + mm + '-' + dd;
+      return today;
+  }
+  
+  function dateParserWithoutArgument () {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+  
+    today = yyyy + '-' + mm + '-' + dd;
+      return today;
+  }
+  
+  function dateParser (date) {
+    return date ? dateParserwithArgument(date) : dateParserWithoutArgument();
+  }
+  
+  function FilterExpectedVehiclesToday() {
+    const customerOrdersExpectedToday = customerOrderList.filter((customerOrder) => {
+      return (customerOrder.Reception_Date === dateParser() && customerOrder.Checked_In === false);
+    });
+    return customerOrdersExpectedToday;
+  }
+
+  const ExpectedVehiclesToday = FilterExpectedVehiclesToday();
+  console.log('ExpectedVehiclesToday', ExpectedVehiclesToday)
+
+  function FilterVehiclesCheckedInToday() {
+    const customerOrdersExpectedToday = customerOrderList.filter((customerOrder) => {
+    return (customerOrder.Reception_Date === dateParser() && customerOrder.Checked_In === true && customerOrder.Received_In === false);
+    });
+    return customerOrdersExpectedToday;
+  }
+  const VehiclesCheckedInToday = FilterVehiclesCheckedInToday();
+  console.log('VehiclesCheckedInToday', VehiclesCheckedInToday)
+
+  function FilterVehiclesReceivedToday() {
+    const customerOrdersExpectedToday = customerOrderList.filter((customerOrder) => {
+      return (customerOrder.Reception_Date === dateParser() && customerOrder.Checked_In === true && customerOrder.Received_In === true);
+    });
+    return customerOrdersExpectedToday;
+  }
+  const VehiclesReceivedInToday = FilterVehiclesReceivedToday();
+  console.log('VehiclesReceivedInToday', VehiclesReceivedInToday);
+  
+
+  useEffect(() => {
+    dispatch(getCustomerOrder());  
+    FilterExpectedVehiclesToday();
+    FilterVehiclesCheckedInToday();
+    FilterVehiclesReceivedToday();
+}, [state && state.customerOrder && state.customerOrder.customerOrder && state.customerOrder.customerOrder.Checked_In])
 
   return (
     <Fragment>
@@ -50,21 +116,21 @@ function Dashboard(props) {
         <Grid item xs={12} md={4}>
           <DashboardCard
             title="Expected Vehicles"
-            numberOfVehicles={2}
+            numberOfVehicles={ExpectedVehiclesToday.length}
             url="expected-vehicles"
           />
         </Grid>
         <Grid item xs={12} md={4}>
           <DashboardCard 
             title="Checked-In Vehicles"
-            numberOfVehicles={2}
+            numberOfVehicles={VehiclesCheckedInToday.length}
             url="received-vehicles"
           />
         </Grid>
         <Grid item xs={12} md={4}>
           <DashboardCard 
             title="Received Vehicles"
-            numberOfVehicles={2}
+            numberOfVehicles={VehiclesReceivedInToday.length}
             url="received-vehicles"
           />
         </Grid>

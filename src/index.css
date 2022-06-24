@@ -9,10 +9,10 @@
     margin-left: 70px;
 }
 
-/* img {
-  width: 100px !important;
-  height: 100px !important;
-} */
+img {
+  width: 50px !important;
+  height: 50px !important;
+}
 .img-lg img {
   width: 100% !important;
   height: 100% !important;
