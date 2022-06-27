@@ -517,7 +517,7 @@ export default function BasicTabs(props) {
                                     {!imgSrcRight &&
                                         !(
                                             camShowFront ||
-                                            camShowRight ||
+                                            camShowTop ||
                                             camShowLeft ||
                                             camShowRear
                                         ) && (
@@ -577,7 +577,7 @@ export default function BasicTabs(props) {
                                     {!imgSrcFront &&
                                         !(
                                             camShowRight ||
-                                            camShowRight ||
+                                            camShowTop ||
                                             camShowLeft ||
                                             camShowRear
                                         ) && (
@@ -974,7 +974,7 @@ export default function BasicTabs(props) {
                         {
                             <Dialog
                                 fullWidth={true}
-                                // fullScreen
+                                fullScreen
                                 maxWidth="lg"
                                 open={openModalRightImg}
                                 onClose={() =>
@@ -1015,7 +1015,7 @@ export default function BasicTabs(props) {
                         {
                             <Dialog
                                 fullWidth={true}
-                                // fullScreen
+                                fullScreen
                                 maxWidth="lg"
                                 open={openModalLeftImg}
                                 onClose={() =>
@@ -1056,12 +1056,12 @@ export default function BasicTabs(props) {
                         {
                             <Dialog
                                 fullWidth={true}
-                                // fullScreen
+                                fullScreen
                                 sx={{ backGroundColor: "none" }}
-                                maxWidth="xs"
-                                PaperProps={{
-                                    sx: { width: "100%", height: "100%" },
-                                }}
+                                maxWidth="lg"
+                                // PaperProps={{
+                                //     sx: { width: "100%", height: "100%" },
+                                // }}
                                 open={openModalFrontImg}
                                 onClose={() =>
                                     setOpenModalFrontImg(!openModalFrontImg)
@@ -1101,7 +1101,7 @@ export default function BasicTabs(props) {
                         {
                             <Dialog
                                 fullWidth={true}
-                                // fullScreen
+                                fullScreen
                                 maxWidth="lg"
                                 open={openModalRearImg}
                                 onClose={() =>
@@ -1142,7 +1142,8 @@ export default function BasicTabs(props) {
                         {
                             <Dialog
                                 fullWidth={true}
-                                // fullScreen
+                                fullScreen
+                                sx={{ height: "100%" }}
                                 maxWidth="lg"
                                 open={openModalTopImg}
                                 onClose={() =>

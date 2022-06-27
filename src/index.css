@@ -10,12 +10,12 @@
 }
 
 img {
-  width: 50px !important;
-  height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
 }
 .img-lg img {
-  width: 100% !important;
-  height: 100% !important;
+    width: 100% !important;
+    height: 74vh !important;
 }
 .css-g0hbx0-MuiPaper-root-MuiDialog-paper {
     margin-left: 70px !important;
@@ -25,8 +25,8 @@ img {
 }
 
 .rc-checkbox {
-  margin: 15px !important;
+    margin: 15px !important;
 }
 .dashboard-link {
-  text-decoration: none
+    text-decoration: none;
 }
