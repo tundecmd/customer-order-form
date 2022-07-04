@@ -1688,10 +1688,14 @@ export default function BasicTabs(props) {
                         ></textarea>
                     </div>
                     <Box display="flex" justifyContent="space-between">
-                        {customerOrder.Received_In === false ? (
+                        {
                             <>
                                 <Button
-                                    color="primary"
+                                    color={
+                                        customerOrder.Received_In === false
+                                            ? "primary"
+                                            : "success"
+                                    }
                                     size="medium"
                                     onClick={handlePrevious}
                                     variant="outlined"
@@ -1713,7 +1717,7 @@ export default function BasicTabs(props) {
             Cancel
           </button> */}
                             </>
-                        ) : null}
+                        }
                         {customerOrder.Received_In === false ? (
                             <Button
                                 color={`${
