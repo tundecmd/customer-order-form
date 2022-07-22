@@ -82,44 +82,10 @@ function ExpectedVehicles(props) {
             state.customerOrder.customerOrder.Checked_In,
     ]);
 
-    const data = [
-        {
-            Vehicle_Registration_No: "2938433",
-            Model_Name: "Matrix",
-            Customer_Name: "Adewale Seun",
-            Time_Received: "04:15:48",
-            Stage: "Pending",
-        },
-        {
-            Vehicle_Registration_No: "1234567",
-            Model_Name: "Matrix",
-            Customer_Name: "New User",
-            Time_Received: "04:15:48",
-            Stage: "Pending",
-        },
-        {
-            Vehicle_Registration_No: "7654321",
-            Model_Name: "Matrix",
-            Customer_Name: "Balogun Hammed",
-            Time_Received: "04:15:48",
-            Stage: "Pending",
-        },
-        {
-            Vehicle_Registration_No: "2233445",
-            Model_Name: "Matrix",
-            Customer_Name: "Shorinyan Dayo",
-            Time_Received: "04:15:48",
-            Stage: "Pending",
-        },
-    ];
-
-    //   console.log('targets::>', targets);
-
     return (
         <Fragment>
             <DataTable
                 pushMessageToSnackbar={pushMessageToSnackbar}
-                // targets={data}
                 targets={ExpectedVehiclesToday}
                 title="Expected Vehicles"
                 setTargets={setTargets}

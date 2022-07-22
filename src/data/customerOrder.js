@@ -1,3 +1,4 @@
+// dummy data used before integrating with Microsoft Business Central
 export const customerOrders = {
     "@odata.context":
         "http://tnlapps.westeurope.cloudapp.azure.com:7048/bc130/ODataV4/$metadata#Company('CRONUS%20International%20Ltd.')/CustomerOrderComplete",
